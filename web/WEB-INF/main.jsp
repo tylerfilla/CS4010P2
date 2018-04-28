@@ -25,21 +25,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>1</td>
-        <td>This is the problem content.</td>
-        <td>Action<br/>Action<br/>Action</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>This is the problem content.</td>
-        <td>Action<br/>Action<br/>Action</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>This is the problem content.</td>
-        <td>Action<br/>Action<br/>Action</td>
-    </tr>
+    <%--@elvariable id="problems" type="java.util.List"--%>
+    <c:forEach items="${problems}" var="prob">
+        <tr>
+            <td>${prob.pid}</td>
+            <td>${prob.content}</td>
+            <td>Action<br/>Action<br/>Action</td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 </body>
