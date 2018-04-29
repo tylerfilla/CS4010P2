@@ -59,10 +59,15 @@ public class ProblemDAO {
         List<Problem> problemList = new ArrayList<>();
 
         int pid = pidA;
-        while (pid != -1 && pid != pidB) {
+        while (pid != -1) {
             try {
                 // Insert problem bean into list
                 problemList.add(getProblemUnsafe(pid));
+
+                if (pid == pidB) {
+                    // Requested stop
+                    break;
+                }
 
                 // Execute follows problem query
                 mPreparedFollows.setInt(1, pid);
@@ -71,6 +76,9 @@ public class ProblemDAO {
                 if (rs.next()) {
                     // Update iteration index
                     pid = rs.getInt(1);
+                } else {
+                    // End of chain
+                    break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

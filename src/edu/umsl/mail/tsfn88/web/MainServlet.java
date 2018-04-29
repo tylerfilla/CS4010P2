@@ -21,9 +21,7 @@ public class MainServlet extends HttpServlet {
         List<Problem> problemList = null;
         try {
             ProblemDAO dao = new ProblemDAO();
-            //problemList = dao.getProblemList(1, 5);
-            problemList = new ArrayList<>();
-            problemList.add(dao.getProblem(1));
+            problemList = dao.getProblemList(1, 10);
         } catch (Throwable t) {
             t.printStackTrace();
         }
