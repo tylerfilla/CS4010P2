@@ -10,10 +10,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-
-
+    <script type="text/javascript">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [
+                    ["$", "$"],
+                    ["\\(", "\\)"]
+                ]
+            }
+        });
     </script>
 </head>
 <body>
@@ -39,12 +44,26 @@
     <c:forEach items="${problems}" var="prob">
         <tr>
             <td>${prob.pid}</td>
-            <td>${prob.content}</td>
+            <td>
+                <div>${prob.content}</div>
+                <div>
+                    <b>Categories:</b>
+                    <%--@elvariable id="catmap" type="java.util.Map"--%>
+                    <c:if test="${empty catmap[prob.pid]}">
+                        <i>none</i>
+                    </c:if>
+                    <c:if test="${not empty catmap[prob.pid]}">
+                        <c:forEach items="${catmap[prob.pid]}" var="cat">
+                            ${cat.name}&nbsp;
+                        </c:forEach>
+                    </c:if>
+                </div>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-<div id="compose-dialog" class="modal" tabindex="-1" role="dialog">
+<div id="compose-dialog" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="compose" method="post">
@@ -56,12 +75,23 @@
                 </div>
                 <div class="modal-body">
                     <label for="compose-content">Problem Content</label><br/>
-                    <textarea id="compose-content" name="content"></textarea>
+                    <textarea id="compose-content" name="content" class="form-control"></textarea><br/>
+                    <label for="compose-categories">Problem Categories</label><br/>
+                    <select multiple id="compose-categories" name="categories" class="form-control"><br/>
+                        <%--@elvariable id="categories" type="java.util.List"--%>
+                        <c:forEach items="${categories}" var="cat">
+                            <option name="${cat.cid}">${cat.name}</option>
+                        </c:forEach>
+                    </select><br/>
+                    <p>CTRL+CLICK a category to deselect it.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Save
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok"></span> Save
                     </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> Discard
+                    </button>
                 </div>
             </form>
         </div>
