@@ -9,6 +9,9 @@
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
 </head>
 <body>
 <h2>Math Question Bank</h2>
@@ -30,7 +33,9 @@
         <tr>
             <td>${prob.pid}</td>
             <td>${prob.content}</td>
-            <td>Action<br/>Action<br/>Action</td>
+            <td>
+
+            </td>
         </tr>
     </c:forEach>
     </tbody>
