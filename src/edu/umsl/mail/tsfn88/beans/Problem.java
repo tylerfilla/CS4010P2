@@ -14,7 +14,7 @@ public class Problem {
     public Problem() {
         mPid = -1;
         mContent = "";
-        mFollows = -1;
+        mFollows = 0;
     }
 
     /**

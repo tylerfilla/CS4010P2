@@ -21,7 +21,7 @@ public class MainServlet extends HttpServlet {
         List<Problem> problemList = null;
         try {
             ProblemDAO dao = new ProblemDAO();
-            problemList = dao.getProblemList(1, 10);
+            problemList = dao.getProblemList(Integer.MAX_VALUE);
         } catch (Throwable t) {
             t.printStackTrace();
         }
