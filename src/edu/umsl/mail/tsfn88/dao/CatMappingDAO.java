@@ -22,6 +22,9 @@ public class CatMappingDAO {
     /** Prepared query: Get all category mappings for a problem ID. */
     private PreparedStatement mPreparedForProblem;
 
+    /** Prepared query: Insert a mapping. */
+    private PreparedStatement mPreparedInsert;
+
     public CatMappingDAO() throws Throwable {
         Class.forName("com.mysql.jdbc.Driver");
 
@@ -30,11 +33,15 @@ public class CatMappingDAO {
 
         // Prepare all category mappings for PID query
         mPreparedForProblem = mConnection.prepareStatement("SELECT * FROM `catmap` WHERE `pid` = ?");
+
+        // Prepare insert mapping query
+        mPreparedInsert = mConnection.prepareStatement("INSERT INTO `catmap` (`pid`, `cid`) VALUES (?, ?)");
     }
 
     @Override
     protected void finalize() throws Throwable {
         mPreparedForProblem.close();
+        mPreparedInsert.close();
         mConnection.close();
     }
 
@@ -59,6 +66,17 @@ public class CatMappingDAO {
         }
 
         return mappingList;
+    }
+
+    public void addMapping(CatMapping mapping) {
+        try {
+            // Execute insert mapping query
+            mPreparedInsert.setInt(1, mapping.getPid());
+            mPreparedInsert.setInt(2, mapping.getCid());
+            mPreparedInsert.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

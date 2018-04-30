@@ -42,6 +42,7 @@
     <tr>
         <td>ID</td>
         <td>Content</td>
+        <td>Action</td>
     </tr>
     </thead>
     <tbody>
@@ -64,6 +65,20 @@
                     </c:if>
                 </div>
             </td>
+            <td>
+                <form action="assign" method="get">
+                    <label for="problem-${prob.pid}-cats">Categories:</label><br/>
+                    <select id="problem-${prob.pid}-cats" name="cid" class="form-control">
+                        <c:forEach items="${categories}" var="cat">
+                            <option value="${cat.cid}">${cat.name}</option>
+                        </c:forEach>
+                    </select><br/>
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicons glyphicons-ok"></span> Assign
+                    </button>
+                    <input type="hidden" name="pid" value="${prob.pid}"/>
+                </form>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
@@ -80,15 +95,7 @@
                 </div>
                 <div class="modal-body">
                     <label for="compose-content">Problem Content</label><br/>
-                    <textarea id="compose-content" name="content" class="form-control"></textarea><br/>
-                    <label for="compose-categories">Problem Categories</label><br/>
-                    <select multiple id="compose-categories" name="categories" class="form-control"><br/>
-                        <%--@elvariable id="categories" type="java.util.List"--%>
-                        <c:forEach items="${categories}" var="cat">
-                            <option name="${cat.cid}">${cat.name}</option>
-                        </c:forEach>
-                    </select><br/>
-                    <p>CTRL+CLICK a category to deselect it.</p>
+                    <textarea id="compose-content" name="content" class="form-control"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">

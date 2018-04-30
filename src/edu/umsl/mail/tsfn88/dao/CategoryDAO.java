@@ -21,6 +21,9 @@ public class CategoryDAO {
     /** Prepared query: Get single category by ID. */
     private PreparedStatement mPreparedSingle;
 
+    /** Prepared query: Get single category by name. */
+    private PreparedStatement getPreparedSingleByName;
+
     /** Prepared query: Get all categories. */
     private PreparedStatement mPreparedAll;
 
@@ -36,6 +39,9 @@ public class CategoryDAO {
         // Prepare single category query
         mPreparedSingle = mConnection.prepareStatement("SELECT * FROM `cats` WHERE `cid` = ?");
 
+        // Prepare single category by name query
+        getPreparedSingleByName = mConnection.prepareStatement("SELECT * FROM `cats` WHERE `name` = ?");
+
         // Prepare all categories query
         mPreparedAll = mConnection.prepareStatement("SELECT * FROM `cats`");
 
@@ -46,6 +52,7 @@ public class CategoryDAO {
     @Override
     protected void finalize() throws Throwable {
         mPreparedSingle.close();
+        getPreparedSingleByName.close();
         mPreparedAll.close();
         mPreparedInsert.close();
         mConnection.close();
@@ -95,6 +102,12 @@ public class CategoryDAO {
 
     public void addCategory(Category category) {
         try {
+            getPreparedSingleByName.setString(1, category.getName());
+            ResultSet rs = getPreparedSingleByName.executeQuery();
+
+            if (rs.next())
+                return;
+
             // Execute insert category query
             mPreparedInsert.setString(1, category.getName());
             mPreparedInsert.executeUpdate();
