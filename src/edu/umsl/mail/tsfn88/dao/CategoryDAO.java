@@ -24,6 +24,9 @@ public class CategoryDAO {
     /** Prepared query: Get all categories. */
     private PreparedStatement mPreparedAll;
 
+    /** Prepared query: Insert category. */
+    private PreparedStatement mPreparedInsert;
+
     public CategoryDAO() throws Throwable {
         Class.forName("com.mysql.jdbc.Driver");
 
@@ -35,12 +38,16 @@ public class CategoryDAO {
 
         // Prepare all categories query
         mPreparedAll = mConnection.prepareStatement("SELECT * FROM `cats`");
+
+        // Prepare insert category query
+        mPreparedInsert = mConnection.prepareStatement("INSERT INTO `cats` (`name`) VALUES (?)");
     }
 
     @Override
     protected void finalize() throws Throwable {
         mPreparedSingle.close();
         mPreparedAll.close();
+        mPreparedInsert.close();
         mConnection.close();
     }
 
@@ -84,6 +91,16 @@ public class CategoryDAO {
         }
 
         return categoryList;
+    }
+
+    public void addCategory(Category category) {
+        try {
+            // Execute insert category query
+            mPreparedInsert.setString(1, category.getName());
+            mPreparedInsert.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

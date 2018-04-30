@@ -25,12 +25,17 @@
 <h2>Math Question Bank</h2>
 <p>Welcome to the math question bank! You may browse the stored problems, manage their categorization, or submit your
     own problems to the bank.</p>
-<h4>Math Problems</h4>
+<h3>Math Problems</h3>
 <p>The following is a list of all math problems that match your criteria.</p>
 <div style="text-align: center;">
-    <button class="btn btn-default" data-toggle="modal" data-target="#compose-dialog">
-        <span class="glyphicon glyphicon-pencil"></span> Compose
-    </button>
+    <div class="btn-group">
+        <button class="btn btn-default" data-toggle="modal" data-target="#compose-dialog">
+            <span class="glyphicon glyphicon-pencil"></span> Compose problem
+        </button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#category-dialog">
+            <span class="glyphicon glyphicon-plus"></span> Add category
+        </button>
+    </div>
 </div>
 <table class="table table-striped table-hover">
     <thead>
@@ -48,7 +53,7 @@
                 <div>${prob.content}</div>
                 <div>
                     <b>Categories:</b>
-                    <%--@elvariable id="catmap" type="java.util.Map"--%>
+                        <%--@elvariable id="catmap" type="java.util.Map"--%>
                     <c:if test="${empty catmap[prob.pid]}">
                         <i>none</i>
                     </c:if>
@@ -93,6 +98,33 @@
                         <span class="glyphicon glyphicon-remove"></span> Discard
                     </button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="category-dialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="category" method="get">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="category-dialog-name">Name:</label><br/>
+                    <input type="text" id="category-dialog-name" name="name" class="form-control"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok"></span> Save
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> Discard
+                    </button>
+                </div>
+                <input type="hidden" name="action" value="create"/>
             </form>
         </div>
     </div>
