@@ -28,6 +28,17 @@
 <h3>Math Problems</h3>
 <p>The following is a list of all math problems that match your criteria.</p>
 <div style="text-align: center;">
+    <form method="get">
+        <label for="cat-filter">Filter by category:</label><br/>
+        <select id="cat-filter" name="cat" class="form-control" >
+            <option value="0">No filter</option>
+            <%--@elvariable id="categories" type="java.util.List"--%>
+            <c:forEach items="${categories}" var="cat">
+                <option value="${cat.cid}">${cat.name}</option>
+            </c:forEach>
+        </select>
+        <button type="submit" class="btn btn-default">Filter</button>
+    </form>
     <div class="btn-group">
         <button class="btn btn-default" data-toggle="modal" data-target="#compose-dialog">
             <span class="glyphicon glyphicon-pencil"></span> Compose problem

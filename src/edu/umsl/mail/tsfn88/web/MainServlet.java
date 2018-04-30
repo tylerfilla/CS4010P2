@@ -58,6 +58,33 @@ public class MainServlet extends HttpServlet {
         }
         req.setAttribute("catmap", categoryMap);
 
+        if (req.getParameter("cat") != null) {
+            int cid = Integer.parseInt(req.getParameter("cat"));
+
+            if (cid > 0) {
+                List<Problem> toRemove = new ArrayList<>();
+
+                for (Problem problem : problemList) {
+                    boolean inCategory = false;
+
+                    for (Category category : categoryMap.get(problem.getPid())) {
+                        if (category.getCid() == cid) {
+                            inCategory = true;
+                        }
+                    }
+
+                    if (!inCategory) {
+                        toRemove.add(problem);
+                    }
+                }
+
+                for (Problem problem : toRemove) {
+                    problemList.remove(problem);
+                    categoryMap.remove(problem.getPid());
+                }
+            }
+        }
+
         // Forward to display page
         req.getRequestDispatcher("/WEB-INF/main.jsp").forward(req, resp);
     }
